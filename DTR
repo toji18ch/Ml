@@ -1,0 +1,29 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeRegressor, plot_tree, export_text
+
+# Input data
+X = np.array([[500], [800], [1000], [1200], [1500], [1800]])
+y = np.array([50, 80, 90, 120, 150, 180])
+
+# Create Decision Tree Regressor model
+model = DecisionTreeRegressor(criterion="squared_error", max_depth=2)
+
+# Train the model
+model.fit(X, y)
+
+# Display decision tree rules
+tree_rules = export_text(model, feature_names=["House Size"])
+print("\nDECISION TREE (Regression Rules):\n")
+print(tree_rules)
+
+# Plot the Decision Tree
+plt.figure(figsize=(12, 6))
+plot_tree(
+    model,
+    feature_names=["House Size"],
+    filled=True,
+    rounded=True
+)
+plt.title("Decision Tree Regression")
+plt.show()
