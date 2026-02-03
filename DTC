@@ -1,0 +1,48 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import LabelEncoder
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+# Dataset
+data = {
+    'Outlook': ['Sunny', 'Sunny', 'Overcast', 'Rain', 'Rain', 'Rain'],
+    'Humidity': ['High', 'Normal', 'High', 'High', 'Normal', 'Normal'],
+    'PlayTennis': ['No', 'Yes', 'Yes', 'Yes', 'No', 'No']
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+print(df)
+
+# Label Encoding
+le = LabelEncoder()
+
+df['Outlook'] = le.fit_transform(df['Outlook'])
+df['Humidity'] = le.fit_transform(df['Humidity'])
+df['PlayTennis'] = le.fit_transform(df['PlayTennis'])
+
+print("\nEncoded Data:")
+print(df)
+
+# Features and target
+X = df[['Outlook', 'Humidity']]
+y = df['PlayTennis']
+
+# Decision Tree Classifier
+model = DecisionTreeClassifier(criterion='entropy')
+model.fit(X, y)
+
+# Prediction
+prediction = model.predict(pd.DataFrame([[2, 0]], columns=X.columns))
+print("\nPrediction:", prediction)
+
+# Plot the Decision Tree
+plt.figure(figsize=(8, 6))
+tree.plot_tree(
+    model,
+    feature_names=['Outlook', 'Humidity'],
+    class_names=['No', 'Yes'],
+    filled=True
+)
+plt.show()
